@@ -43,7 +43,7 @@ task cucumber() {
             args = [
                     '--plugin', 'html:reports/test-report',
                     '--plugin', 'pretty',
-                    '--glue', 'org.MiAguilaTest.steps', 'src/test/resources',
+                    '--glue', 'org.miaguila.steps', 'src/test/resources',
                     '--tags', '@Execution'
             ]
         }
