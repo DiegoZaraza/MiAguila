@@ -10,6 +10,9 @@ public class LoginPage extends BasePage {
     @FindBy(xpath = "//*[@id=\"__layout\"]/div/div[2]/div[4]/div/div[3]/div[2]/div/div[1]/div/input")
     WebElement inputName;
 
+    @FindBy(xpath = "//*[@id=\"__layout\"]/div/div[2]/div[4]/div/div[3]/div[2]/div/div[1]/div[2]")
+    WebElement nameMessageError;
+
     public LoginPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
@@ -20,7 +23,11 @@ public class LoginPage extends BasePage {
         sendKeys(inputName, value, "Input text for find a product");
     }
 
-    public String getInputName(){
+    public String getInputName() {
         return getText(inputName, "");
+    }
+
+    public String getNameMessageError() {
+        return getText(nameMessageError, "");
     }
 }

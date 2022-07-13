@@ -1,6 +1,6 @@
 package org.miaguila.steps;
 
-import com.github.dockerjava.core.command.LogContainerCmdImpl;
+import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -10,6 +10,7 @@ import org.assertj.core.api.SoftAssertions;
 import org.miaguila.pageobject.BasePage;
 import org.miaguila.pageobject.LoginPage;
 import org.miaguila.utilities.PropertiesRead;
+import org.miaguila.utilities.Utilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -18,12 +19,14 @@ public class StepDefinitions {
     private WebDriver webDriver;
     private SoftAssertions softAssertions;
     private LoginPage loginPage;
+    private Utilities utilities;
 
     @Before
     public void setup() {
         WebDriverManager.chromedriver().setup();
         webDriver = new ChromeDriver();
         loginPage = new LoginPage(webDriver);
+        utilities = new Utilities();
         softAssertions = new SoftAssertions();
         webDriver.manage().window().maximize();
     }
@@ -44,12 +47,22 @@ public class StepDefinitions {
         softAssertions.assertThat(loginPage.getInputName().isEmpty());
     }
 
-    @When("Type most of fifty letter on field")
-    public void typeMostOfLetterOnField() {
-        loginPage.setInputName();
+    @When("Type most of fifty letters on field")
+    public void typeMostOfFiftyLettersOnField() {
+        System.out.println(utilities.cadena(51));
+        loginPage.setInputName(utilities.cadena(51));
     }
 
     @Then("Validate show message for quantity of characters")
     public void validateShowMessageForQuantityOfCharacters() {
+        softAssertions.assertThat(loginPage.getNameMessageError().equals("- No puedes ingresar más de 50 caracteres"));
+    }
+
+    @After
+    public void end() {
+        //softAssertions.assertAll();
+        if (webDriver != null) {
+            webDriver.quit();
+        }
     }
 }
